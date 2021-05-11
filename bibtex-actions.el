@@ -150,8 +150,8 @@ you can use the following initial inputs: \"has:pdf\",
   "Keymap for 'bibtex-actions'.")
 
 ;;; Completion functions
-(cl-defun bibtex-actions-read (&optional &key initial rebuild-cache)
-  "Read bibtex-completion entries.
+(cl-defun bibtex-actions-read (&optional &key prompt initial rebuild-cache)
+  "Read bibtex-completion entries using PROMPT.
 
 This provides a wrapper around 'completing-read-multiple', with
 the following optional arguments:
@@ -355,10 +355,13 @@ TEMPLATE."
 
 ;;;###autoload
 (defun bibtex-actions-open (keys)
- "Open PDF, or URL or DOI link.
-Opens the PDF(s) associated with the KEYS.  If multiple PDFs are
-found, ask for the one to open using ‘completing-read’.  If no
-PDF is found, try to open a URL or DOI in the browser instead.
+ "Open source PDF, or URL or DOI link.
+
+Opens the PDF(s) for the source associated with the KEYS. If
+multiple PDFs are found, ask for the one to open using
+‘completing-read’. If no PDF is found, try to open a URL or DOI
+in the browser instead.
+
 With prefix, rebuild the cache before offering candidates."
   (interactive (list (bibtex-actions-read :initial 'source
 					  :rebuild-cache current-prefix-arg)))
@@ -366,9 +369,11 @@ With prefix, rebuild the cache before offering candidates."
 
 ;;;###autoload
 (defun bibtex-actions-open-pdf (keys)
- "Open PDF associated with the KEYS.
+ "Open source PDF associated with the KEYS.
+
 If multiple PDFs are found, ask for the one to open using
 ‘completing-read’.
+
 With prefix, rebuild the cache before offering candidates."
   (interactive (list (bibtex-actions-read :initial 'pdf
 					  :rebuild-cache current-prefix-arg)))
@@ -376,7 +381,8 @@ With prefix, rebuild the cache before offering candidates."
 
 ;;;###autoload
 (defun bibtex-actions-open-link (keys)
-  "Open URL or DOI link associated with the KEYS in a browser.
+  "Open source URL or DOI link associated with the KEYS in a browser.
+
 With prefix, rebuild the cache before offering candidates."
   (interactive (list (bibtex-actions-read :initial 'link
 					  :rebuild-cache current-prefix-arg)))
@@ -385,6 +391,7 @@ With prefix, rebuild the cache before offering candidates."
 ;;;###autoload
 (defun bibtex-actions-insert-citation (keys)
   "Insert citation for the KEYS.
+
 With prefix, rebuild the cache before offering candidates."
   (interactive (list (bibtex-actions-read :rebuild-cache current-prefix-arg)))
  (bibtex-completion-insert-citation keys))
@@ -392,6 +399,7 @@ With prefix, rebuild the cache before offering candidates."
 ;;;###autoload
 (defun bibtex-actions-insert-reference (keys)
   "Insert formatted reference(s) associated with the KEYS.
+
 With prefix, rebuild the cache before offering candidates."
   (interactive (list (bibtex-actions-read :rebuild-cache current-prefix-arg)))
   (bibtex-completion-insert-reference keys))
@@ -399,6 +407,7 @@ With prefix, rebuild the cache before offering candidates."
 ;;;###autoload
 (defun bibtex-actions-insert-key (keys)
   "Insert BibTeX KEYS.
+
 With prefix, rebuild the cache before offering candidates."
   (interactive (list (bibtex-actions-read :rebuild-cache current-prefix-arg)))
  (bibtex-completion-insert-key keys))
@@ -406,6 +415,7 @@ With prefix, rebuild the cache before offering candidates."
 ;;;###autoload
 (defun bibtex-actions-insert-bibtex (keys)
   "Insert BibTeX entry associated with the KEYS.
+
 With prefix, rebuild the cache before offering candidates."
   (interactive (list (bibtex-actions-read :rebuild-cache current-prefix-arg)))
  (bibtex-completion-insert-bibtex keys))
@@ -413,6 +423,7 @@ With prefix, rebuild the cache before offering candidates."
 ;;;###autoload
 (defun bibtex-actions-add-pdf-attachment (keys)
   "Attach PDF(s) associated with the KEYS to email.
+
 With prefix, rebuild the cache before offering candidates."
   (interactive (list (bibtex-actions-read :rebuild-cache current-prefix-arg)))
  (bibtex-completion-add-PDF-attachment keys))
@@ -420,6 +431,7 @@ With prefix, rebuild the cache before offering candidates."
 ;;;###autoload
 (defun bibtex-actions-open-notes (keys)
   "Open notes associated with the KEYS.
+
 With prefix, rebuild the cache before offering candidates."
   (interactive (list (bibtex-actions-read :initial 'note
 					  :rebuild-cache current-prefix-arg)))
@@ -428,6 +440,7 @@ With prefix, rebuild the cache before offering candidates."
 ;;;###autoload
 (defun bibtex-actions-open-entry (keys)
   "Open BibTeX entry associated with the KEYS.
+
 With prefix, rebuild the cache before offering candidates."
   (interactive (list (bibtex-actions-read :rebuild-cache current-prefix-arg)))
  (bibtex-completion-show-entry keys))
@@ -435,8 +448,9 @@ With prefix, rebuild the cache before offering candidates."
 ;;;###autoload
 (defun bibtex-actions-add-pdf-to-library (keys)
  "Add PDF associated with the KEYS to library.
-The PDF can be added either from an open buffer, a file, or a
-URL.
+
+The PDF can be added from an open buffer, a file, or a URL.
+
 With prefix, rebuild the cache before offering candidates."
   (interactive (list (bibtex-actions-read :rebuild-cache current-prefix-arg)))
   (bibtex-completion-add-pdf-to-library keys))

@@ -113,7 +113,7 @@ may be indicated with the same icon but a different face."
     (markdown-mode . bibtex-completion-format-citation-pandoc-citeproc)
     (python-mode   . bibtex-completion-format-citation-sphinxcontrib-bibtex)
     (rst-mode      . bibtex-completion-format-citation-sphinxcontrib-bibtex)
-    (default       . bibtex-completion-format-citation-pandoc-citeproc)))
+    (default       . bibtex-actions-format-keys)))
 
 (defcustom bibtex-actions-force-refresh-hook nil
   "Hook run when user forces a (re-) building of the candidates cache.
@@ -443,6 +443,17 @@ TEMPLATE."
                               field-width
                             width)))
                (truncate-string-to-width field-value width 0 ?\s))))))))
+
+;;; Custom formatting functions
+
+(defun bibtex-actions-format-keys (keys)
+  "Formatter for KEYS.
+Adds an @ prefix and a semi-colon delimiter for 'org-mode' and 'markdown-mode'.
+Otherwise, keys are plain and comma-delimited."
+  (let* ((prefix (if (eq major-mode 'org-mode) "@" ""))
+         (delimiter (if (eq major-mode 'markdown-mode) ";"
+                        ",")))
+         (mapconcat (lambda (k) (concat prefix k)) keys delimiter)))
 
 ;;; At-point functions
 
